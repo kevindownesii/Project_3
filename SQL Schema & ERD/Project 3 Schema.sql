@@ -4,9 +4,18 @@
 
 -- Project 3
 
-CREATE TABLE "cleaned_census" (
+CREATE TABLE "county_id" (
+    "county_id" INT(2)   NOT NULL,
+    "county" VARCHAR(50)   NOT NULL,
+    CONSTRAINT "pk_county_id" PRIMARY KEY (
+        "county_id"
+     )
+);
+
+CREATE TABLE "cleaned_census_data" (
     "STATE_CODE" INT(2)   NOT NULL,
     "COUNTY_CODE" INT(2)   NOT NULL,
+    "COUNTY_ID" INT(2)   NOT NULL,
     "COUNTY_NAME" VARCHAR(50)   NOT NULL,
     "POPULATION_25+" INT(10)   NOT NULL,
     "MEDIAN_HOUSEHOLD_INCOME" INT(10)   NOT NULL,
@@ -20,12 +29,16 @@ CREATE TABLE "cleaned_census" (
     "MASTERS_PERCENTAGE" Float   NOT NULL,
     "DOCTORATE_PERCENTAGE" Float   NOT NULL,
     "PROFESSIONAL_PERCENTAGE" Float   NOT NULL,
-    "TOTAL_BACHELOR+_PERCENTAGE" Float   NOT NULL
+    "TOTAL_BACHELOR+_PERCENTAGE" Float   NOT NULL,
+    CONSTRAINT "pk_cleaned_census_data" PRIMARY KEY (
+        "COUNTY_ID"
+     )
 );
 
 CREATE TABLE "County_Boundaries_of_NJ" (
     "OBJECTID" INT(2)   NOT NULL,
     "COUNTY" VARCHAR(50)   NOT NULL,
+    "COUNTY_ID" INT(2)   NOT NULL,
     "COUNTY_LABEL" VARCHAR(50)   NOT NULL,
     "CO" VARCHAR(5)   NOT NULL,
     "GNIS_NAME" VARCHAR(50)   NOT NULL,
@@ -46,6 +59,35 @@ CREATE TABLE "County_Boundaries_of_NJ" (
     "POPDEN1980" INT(10)   NOT NULL,
     "REGION" VARCHAR(10)   NOT NULL,
     "Shape_Length" Float   NOT NULL,
-    "Shape_Area" Float   NOT NULL
+    "Shape_Area" Float   NOT NULL,
+    CONSTRAINT "pk_County_Boundaries_of_NJ" PRIMARY KEY (
+        "COUNTY_ID"
+     )
 );
+
+CREATE TABLE "Crime_Data" (
+    "county_id" INT(2)   NOT NULL,
+    "county" VARCHAR(50)   NOT NULL,
+    "agency" VARCHAR(100)   NOT NULL,
+    "murder_count" INT(10)   NOT NULL,
+    "rape_count" INT(10)   NOT NULL,
+    "robbery_count" INT(10)   NOT NULL,
+    "assualt_count" INT(10)   NOT NULL,
+    "burglary_count" INT(10)   NOT NULL,
+    "larceny_count" INT(10)   NOT NULL,
+    "auto_theft_count" INT(10)   NOT NULL,
+    "year" SMALLINT(10)   NOT NULL,
+    CONSTRAINT "pk_Crime_Data" PRIMARY KEY (
+        "county_id"
+     )
+);
+
+ALTER TABLE "cleaned_census_data" ADD CONSTRAINT "fk_cleaned_census_data_COUNTY_ID" FOREIGN KEY("COUNTY_ID")
+REFERENCES "county_id" ("county_id");
+
+ALTER TABLE "County_Boundaries_of_NJ" ADD CONSTRAINT "fk_County_Boundaries_of_NJ_COUNTY_ID" FOREIGN KEY("COUNTY_ID")
+REFERENCES "county_id" ("county_id");
+
+ALTER TABLE "Crime_Data" ADD CONSTRAINT "fk_Crime_Data_county_id" FOREIGN KEY("county_id")
+REFERENCES "county_id" ("county_id");
 
