@@ -35,7 +35,7 @@ CREATE TABLE "cleaned_census_data" (
      )
 );
 
-CREATE TABLE "County_Boundaries_of_NJ" (
+CREATE TABLE "county_boundaries_of_nj" (
     "OBJECTID" INT   NOT NULL,
     "COUNTY" VARCHAR(50)   NOT NULL,
     "COUNTY_ID" INT   NOT NULL,
@@ -57,15 +57,15 @@ CREATE TABLE "County_Boundaries_of_NJ" (
     "POPDEN2000" INT   NOT NULL,
     "POPDEN1990" INT   NOT NULL,
     "POPDEN1980" INT   NOT NULL,
-    "REGION" VARCHAR(10)   NOT NULL,
+    "REGION" VARCHAR(100)   NOT NULL,
     "Shape_Length" Float   NOT NULL,
     "Shape_Area" Float   NOT NULL,
-    CONSTRAINT "pk_County_Boundaries_of_NJ" PRIMARY KEY (
+    CONSTRAINT "pk_county_boundaries_of_nj" PRIMARY KEY (
         "COUNTY_ID"
      )
 );
 
-CREATE TABLE "Crime_Data" (
+CREATE TABLE "crime_data" (
     "record_id" INT   NOT NULL,
     "county_id" INT   NOT NULL,
     "county" VARCHAR(50)   NOT NULL,
@@ -78,17 +78,17 @@ CREATE TABLE "Crime_Data" (
     "larceny_count" INT   NOT NULL,
     "auto_theft_count" INT   NOT NULL,
     "year" SMALLINT   NOT NULL,
-    CONSTRAINT "pk_Crime_Data" PRIMARY KEY (
-        "record_id","county_id","year"
+    CONSTRAINT "pk_crime_data" PRIMARY KEY (
+        "record_id","year"
      )
 );
 
 ALTER TABLE "cleaned_census_data" ADD CONSTRAINT "fk_cleaned_census_data_COUNTY_ID" FOREIGN KEY("COUNTY_ID")
 REFERENCES "county_id" ("county_id");
 
-ALTER TABLE "County_Boundaries_of_NJ" ADD CONSTRAINT "fk_County_Boundaries_of_NJ_COUNTY_ID" FOREIGN KEY("COUNTY_ID")
+ALTER TABLE "county_boundaries_of_nj" ADD CONSTRAINT "fk_county_boundaries_of_nj_COUNTY_ID" FOREIGN KEY("COUNTY_ID")
 REFERENCES "county_id" ("county_id");
 
-ALTER TABLE "Crime_Data" ADD CONSTRAINT "fk_Crime_Data_county_id" FOREIGN KEY("county_id")
+ALTER TABLE "crime_data" ADD CONSTRAINT "fk_crime_data_county_id" FOREIGN KEY("county_id")
 REFERENCES "county_id" ("county_id");
 
