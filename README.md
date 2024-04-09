@@ -34,5 +34,8 @@ https://api.census.gov/data/2020/acs/acs5/variables.html
 New Jersey Crime Statistics
 https://www.nj.gov/njsp/ucr/uniform-crime-reports.shtml
 
+NJ County Boundaries
+https://njogis-newjersey.opendata.arcgis.com/datasets/newjersey::county-boundaries-of-nj/explore?showTable=true
+
 
 
