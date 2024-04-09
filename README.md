@@ -20,7 +20,7 @@ Instructions on how to use and interact with the project
 
 Ethical considerations made in the project:
 
-Data sources used were publicly available from the US Census & New Jersey Police. The US Census data is a highly standardized data set that has some changes to demographic data, but our data set contain median household income and educational achievement statistics. The New Jersey Crime statistics were summarized by agency and did not contain actual names or references to case files. All data sources were by either town or county within New Jersey and did not contain any private peronsal information. 
+Data sources used were publicly available from the US Census & New Jersey State Police. The US Census data is a highly standardized data set that has had some changes to demographic data, but our data set contained only median household income, population, and educational achievement statistics. The New Jersey Crime statistics were summarized by agency and did not contain actual names or references to case files. All data sources were either by town or county within New Jersey and did not contain any private peronsal information. 
 
 
 
