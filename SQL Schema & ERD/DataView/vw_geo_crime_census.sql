@@ -12,6 +12,7 @@ CREATE OR REPLACE VIEW public.vw_geo_crime_census
     a.burglary_2018,
     a.larceny_2018,
     a.auto_theft_2018,
+    a.murder_2018 + a.rape_2018 + a.robbery_2018 + a.assualt_2018 + a.burglary_2018 + a.larceny_2018 + a.auto_theft_2018 AS total_2018,
     a.murder_2019,
     a.rape_2019,
     a.robbery_2019,
@@ -19,6 +20,7 @@ CREATE OR REPLACE VIEW public.vw_geo_crime_census
     a.burglary_2019,
     a.larceny_2019,
     a.auto_theft_2019,
+    a.murder_2019 + a.rape_2019 + a.robbery_2019 + a.assualt_2019 + a.burglary_2019 + a.larceny_2019 + a.auto_theft_2019 AS total_2019,
     a.murder_2020,
     a.rape_2020,
     a.robbery_2020,
@@ -26,6 +28,7 @@ CREATE OR REPLACE VIEW public.vw_geo_crime_census
     a.burglary_2020,
     a.larceny_2020,
     a.auto_theft_2020,
+    a.murder_2020 + a.rape_2020 + a.robbery_2020 + a.assualt_2020 + a.burglary_2020 + a.larceny_2020 + a.auto_theft_2020 AS total_2020,
     b."COUNTY_NAME",
     b."POPULATION_25_PLUS",
     b."MEDIAN_HOUSEHOLD_INCOME",
@@ -71,3 +74,4 @@ CREATE OR REPLACE VIEW public.vw_geo_crime_census
 
 ALTER TABLE public.vw_geo_crime_census
     OWNER TO postgres;
+
