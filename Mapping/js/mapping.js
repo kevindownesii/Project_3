@@ -1,3 +1,28 @@
+function formatNum(num){
+  return new Intl.NumberFormat().format(num)
+}
+
+function getCensusDataFromAPI(){
+  // Get the data with d3.  
+  $.ajaxSetup({
+    headers:{
+      "Access-Control-Allow-Origin": "*"
+    }
+ })
+
+  $.get({url: "http://127.0.0.1:5000/api/v1.0/getCensusData", dataType: "json",  async:false}, (data, status) => {    
+    censusData = data;
+    console.log(typeof(censusData));
+  });
+}
+
+function getCensusDataByObjectID(objectId){        
+    if (Array.isArray(censusData))
+      return censusData.filter(data => data.OBJECTID  == objectId)[0];            
+    else
+      return null;
+}
+
 function zoomToFeature(e) {
   myMap.fitBounds(e.target.getBounds());
 }
@@ -24,7 +49,9 @@ let myMap = L.map("map", {
   zoom: 8
 });
 
+var censusData;
 var geojson;
+
 // Adding the tile layer
 //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -39,30 +66,71 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-  const contents = props ? `<b>${props.COUNTY_LABEL}</b><br />${props.POP2020} people` : 'Hover over a state';
-  this._div.innerHTML = `<h4>County Info</h4>${contents}`;
+
+  const contents = props?`<table><thead>
+    <tr>
+      <th>${props.COUNTY_LABEL}</th>      
+    </tr>
+   </thead>
+   <tbody>
+     <tr> 
+      <td>Polulation 25+</td>
+      <td>${formatNum(props.CUSTOM.POPULATION_25_PLUS)}</td>
+     </tr>
+     <tr> 
+      <td>Median Household Income</td>
+      <td>$${formatNum(props.CUSTOM.MEDIAN_HOUSEHOLD_INCOME)}</td>
+     </tr>
+     <tr> 
+      <td>High School</td>
+      <td>$${formatNum(props.CUSTOM.HIGH_SCHOOL)}</td>
+     </tr>
+     <tr> 
+      <td>Bachelor</td>
+      <td>$${formatNum(props.CUSTOM.BACHELOR)}</td>
+     </tr>
+    </tbody>
+  </table>`: 'Hover over a county';
+    
+  this._div.innerHTML = `${contents}`;
 };
 
 info.addTo(myMap);
 
- //Load the GeoJSON data.
-//let geoData = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/15-Mapping-Web/ACS-ED_2014-2018_Economic_Characteristics_FL.geojson";
-let geoData = "County_Boundaries_of_NJ.geojson"
-// Get the data with d3.
-d3.json(geoData).then(function(data) {
-    console.log(data);
+
+getCensusDataFromAPI();
+  //Load the GeoJSON data.
+  //let geoData = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/15-Mapping-Web/ACS-ED_2014-2018_Economic_Characteristics_FL.geojson";
+  let geoData = "County_Boundaries_of_NJ.geojson"
+  // Get the data with d3.
+  d3.json(geoData).then(function(data) {        
+
+    let geoJsonData = data;
+    //merge GeoJSON with API data and save census and crime data in CUSTOM field
+    for (let i = 0;i<geoJsonData.features.length;i++)
+    {
+      let feature = geoJsonData.features[i];
+      countyCensus = getCensusDataByObjectID(feature.properties.OBJECTID);      
+      if (countyCensus)
+        feature.properties.CUSTOM = countyCensus;
+      else
+        feature.properties.CUSTOM = null;      
+    }
+
     //BoundaryCanvas is a plugin for Leaflet mapping library to draw tiled raster layers with arbitrary boundary. HTML5 Canvas is used for rendering.
     var osm = new L.TileLayer.BoundaryCanvas("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    boundary: data,
+    boundary: geoJsonData,
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors</a>'
     });
     myMap.addLayer(osm);
     var njLayer = L.geoJSON(data);
     myMap.fitBounds(njLayer.getBounds());
     // Create a new choropleth layer.
-    geojson = L.choropleth(data, {
+    geojson = L.choropleth(geoJsonData, {
     // Define which property in the features to use.
-    valueProperty: "POP2020",
+    valueProperty: function (feature) {
+      return feature.properties.CUSTOM.auto_theft_2019;
+    },
     // Set the color scale.
     scale: ["#ffffb2", "#b10026"],
     // The number of breaks in the step range
@@ -114,4 +182,4 @@ d3.json(geoData).then(function(data) {
 
   // Adding the legend to the map
   legend.addTo(myMap);
-});
+  });
