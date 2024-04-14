@@ -62,3 +62,12 @@ h1 {
 
 table td { width: 20em; border: 1px solid black; }
 table td:nth-child(2) { text-align: end; }
+
+#selection {
+  height: 5vh;  
+}
+
+/*Sets the maximum height of the entire modal to 95% of the screen height*/
+#map {
+  height: 90vh;  
+}

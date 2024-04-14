@@ -4,7 +4,7 @@
     <meta charset="UTF-8">  
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
 
-    <title>Income Choropleth</title>
+    <title>Crime/Education/Household Income Mapping</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -30,13 +30,28 @@
     <!-- Jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
   </head>
   <body>
-
+    <div id="selection" class="row">
+      <label for="metricsSelection" class="col-sm-1 col-form-label" >Choropleth Metric</label>
+      <div class="col-sm-6">
+      <select class="form-select" aria-label="Default select" id="metricsSelection">
+        <option value="income">Median Household Income</option>
+        <option value="high_school">Population with High School Education</option>
+        <option value="bachelor">Population with Bachelor Education</option>
+        <option value="masters">Population with Masters Education</option>
+        <option value="total_2018">2018 Crime Rate</option>
+        <option value="total_2019">2019 Crime Rate</option>
+        <option value="total_2020">2020 Crime Rate</option>
+      </select>
+      </div>
+    </div>
     <!-- The div where we'll insert our map -->
     <div id="map"></div>
-
     <!-- Our JavaScript -->
     <script type="text/javascript" src="js/mapping.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
 </html>
