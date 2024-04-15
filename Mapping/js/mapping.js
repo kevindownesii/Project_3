@@ -79,18 +79,28 @@ function createMap(metrics){
     geojson = L.choropleth(geoJsonData, {
       // Define which property in the features to use.
       valueProperty: function (feature){        
-        if (metrics=="total_2018")          
+        if (metrics=="population")          
+          return feature.properties.CUSTOM.POPULATION_25_PLUS;
+        else if (metrics=="total_2018_rate")          
           return Math.round(feature.properties.CUSTOM.total_2018/feature.properties.CUSTOM.POPULATION_25_PLUS * 100000);       
-        else if (metrics=="total_2019")          
+        else if (metrics=="total_2019_rate")          
           return Math.round(feature.properties.CUSTOM.total_2019/feature.properties.CUSTOM.POPULATION_25_PLUS * 100000);       
-        else if (metrics=="total_2020")
+        else if (metrics=="total_2020_rate")
           return Math.round(feature.properties.CUSTOM.total_2020/feature.properties.CUSTOM.POPULATION_25_PLUS * 100000);
+        else if (metrics=="total_2018")          
+          return feature.properties.CUSTOM.total_2018;       
+        else if (metrics=="total_2019")          
+          return feature.properties.CUSTOM.total_2019; 
+        else if (metrics=="total_2020")
+          return feature.properties.CUSTOM.total_2020;
         else if (metrics=="masters")      
           return feature.properties.CUSTOM.MASTERS;
         else if (metrics=="bachelor")      
           return feature.properties.CUSTOM.BACHELOR;
         else if (metrics=="high_school")      
           return feature.properties.CUSTOM.HIGH_SCHOOL;
+        else if (metrics=="bachelor_plus_pct")      
+          return Math.round(feature.properties.CUSTOM.TOTAL_BACHELOR_PLUS_PERCENTAGE);
         else        
           return feature.properties.CUSTOM.MEDIAN_HOUSEHOLD_INCOME;
       },        
@@ -127,25 +137,40 @@ function createMap(metrics){
     let labels = [];
 
     let legendTitle = "";
-    if (metrics=="total_2018")          
-      legendTitle = "2018 Crime Rate"
-    else if (metrics=="total_2019")          
-      legendTitle = "2019 Crime Rate"
-    else if (metrics=="total_2020") 
+    let min = formatNum(limits[0]);
+    let max = formatNum(limits[limits.length - 1]);
+    if (metrics=="population")
+      legendTitle = "Population 25 Plus"          
+    else if (metrics=="total_2018_rate")              
+      legendTitle = "2018 Crime Rate"      
+    else if (metrics=="total_2019_rate")         
+      legendTitle = "2019 Crime Rate"      
+    else if (metrics=="total_2020_rate") 
       legendTitle = "2020 Crime Rate"
+    else if (metrics=="total_2018")          
+      legendTitle = "2018 Reported Crimes"
+    else if (metrics=="total_2019")          
+      legendTitle = "2019 Reported Crimes"
+    else if (metrics=="total_2020") 
+      legendTitle = "2020 Reported Crimes"
     else if (metrics=="masters")
       legendTitle = "Pop with Masters Edu"
     else if (metrics=="bachelor")      
-      legendTitle = "Pop with BACHELAR Edu"
+      legendTitle = "Pop with Bachelor Edu"
     else if (metrics=="high_school")      
       legendTitle = "Pop with High School Edu"
+    else if (metrics=="bachelor_plus_pct"){
+      legendTitle = "Pop Pct with Bachelor or Above Edu"
+      min = formatNum(limits[0]) + "%";
+      max = formatNum(limits[limits.length - 1]) + "%";
+    }
     else        
       legendTitle = "Median Household Income"
     // Add the minimum and maximum.    
     let legendInfo = `<h1>${legendTitle}</h1>` +
       "<div class=\"labels\">" +
-        "<div class=\"min\">" + limits[0] + "</div>" +
-        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+        "<div class=\"min\">" + min + "</div>" +
+        "<div class=\"max\">" + max + "</div>" +
       "</div>";
 
     div.innerHTML = legendInfo;
@@ -197,6 +222,10 @@ function createMap(metrics){
        <tr> 
         <td>Polulation with DOCTORATE Education</td>
         <td>${formatNum(props.CUSTOM.DOCTORATE)}</td>
+       </tr>
+       <tr> 
+        <td>Polulation Percentage with Bachelor Plus Education</td>
+        <td>${formatNum(props.CUSTOM.TOTAL_BACHELOR_PLUS_PERCENTAGE)}%</td>
        </tr>
        <tr> 
         <td>2018 Reported Crime/Crime Rate</td>
