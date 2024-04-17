@@ -4,14 +4,13 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import pandas as pd
 from flask_cors import CORS
-
 from flask import Flask, jsonify
 
 
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("postgresql://postgres:@localhost/project3")
+engine = create_engine("postgresql://postgres:Pschawk15!@localhost/Project3")
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -19,7 +18,7 @@ Base = automap_base()
 Base.prepare(autoload_with=engine)
 
 # Save reference to the table
-county = Base.classes.county
+# county = Base.classes.county
 #vw_geo_crime_census = Base.classes.vw_geo_crime_census
 
 #################################################
@@ -33,6 +32,8 @@ CORS(app)
 # Flask Routes
 #################################################
 
+
+
 @app.route("/")
 def welcome():
     """List all available api routes."""
@@ -43,20 +44,20 @@ def welcome():
     )
 
 @app.route("/api/v1.0/getCounties")
-def countyList():
-    # Create our session (link) from Python to the DB
-    session = Session(engine)
-    counties = []
-    """Return a list of county's census data"""
-    # Query all counties
-    results = session.query(county).all()
-    # Convert list of tuples into normal list
-    for c in results:
-        counties.append({"county_id": c.county_id, "county_name": c.county_name})
+# def countyList():
+#     # Create our session (link) from Python to the DB
+#     session = Session(engine)
+#     counties = []
+#     """Return a list of county's census data"""
+#     # Query all counties
+#     results = session.query(county).all()
+#     # Convert list of tuples into normal list
+#     for c in results:
+#         counties.append({"county_id": c.county_id, "county_name": c.county_name})
 
-    session.close()
+#     session.close()
 
-    return jsonify(counties)
+#     return jsonify(counties)
 
 @app.route("/api/v1.0/getCensusData")
 def geo_crime_census_dataview():
