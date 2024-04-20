@@ -3,6 +3,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import pandas as pd
+# to enable CORS (Cross-Origin Resource Sharing) for front end to get API
 from flask_cors import CORS
 
 from flask import Flask, jsonify
@@ -38,8 +39,8 @@ def welcome():
     """List all available api routes."""
     return (
         f"Available Routes:<br/>"
-        f"/api/v1.0/getCensusData<br/>"
-        f"/api/v1.0/getCrimeDataByCounty"
+        f"/api/v1.0/getCounties<br/>"
+        f"/api/v1.0/getCensusData"
     )
 
 @app.route("/api/v1.0/getCounties")
@@ -67,7 +68,7 @@ def geo_crime_census_dataview():
     census_data = census_df.to_json(orient='records')
     print(census_data)
     #census_data = census_df.values.tolist()    
-    """Return a list of county's census data"""    
+    """Return data view of census, crime and partial data from GeoJSON"""    
     return census_data
 
 if __name__ == '__main__':
