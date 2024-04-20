@@ -37,5 +37,14 @@ https://www.nj.gov/njsp/ucr/uniform-crime-reports.shtml
 NJ County Boundaries
 https://njogis-newjersey.opendata.arcgis.com/datasets/newjersey::county-boundaries-of-nj/explore?showTable=true
 
-
+# Source code detail
+1. Data Files: the source data files and the csv files after cleaning up.
+2. SQL Schema and ERD: SQL exported from QuickDBD and data schema ERD graph.
+3. API folder: Using Python Flask to create API function to get census and crime data view from Postgres database
+4. Mapping folder: The dashboard uses Leaflet and plotly to visualize chorspleth map and bar chart to visualize the crime, census and geography data correlation.
+5. ETL folder: the ETL function uses openpyxl library to extract data from excel spreadsheet files: 2018_Uniform_Crime_Report.xlsx, 2019_Uniform_Crime_Report.xlsx and 2020_Uniform_Crime_Report.xlsx and output as csv: Crime_Data.csv
+6. Jupyter notbook
+     i. Graphs.ipynb: visualization of correlation between crime, household median income, population and education in NJ.
+     ii. Census CSV.ipynb: one of ETL process to get census data using censusdis library.
+     iii. Project_3_Census.ipynb: one of ETL process to get census data using censusdis library and plot chorospleth map.
 
