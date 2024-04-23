@@ -15,7 +15,7 @@ Using quickdatabasediagrams.com, an Entity Relationship Diagram (ERD) was create
 
 Instructions on how to use and interact with the project
 
-
+Data Visualization is a geographical mpa of New Jeresy showing education, population, and crime statistics by county. Dashboard has drop down menu to select the metric and will update the visual accordingly. In addition, the data points will visually appear for the county.
 
 
 Ethical considerations made in the project:
