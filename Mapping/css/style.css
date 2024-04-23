@@ -3,7 +3,6 @@ body {
   margin: 0;
 }
 
-#map,
 body,
 html {
   height: 100%;
@@ -70,4 +69,8 @@ table td:nth-child(2) { text-align: end; }
 /*Sets the maximum height of the entire modal to 95% of the screen height*/
 #map {
   height: 90vh;  
+}
+
+#bar {
+  height: 60vh;  
 }
